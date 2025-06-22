@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Bruno ❤️ Sofia - Nossa História</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+body {
+background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+font-family: 'Montserrat', sans-serif;
+margin: 0;
+padding: 0 20px 40px;
+color: #333;
+overflow-x: hidden;
+}
+
+header {
+text-align: center;
+margin-top: 40px;
+margin-bottom: 15px;
+font-weight: 700;
+font-size: 2.5rem;
+color: #6a1b1b;
+text-shadow: 1px 1px 5px #fff3f3;
+user-select: none;
+}
+
+header span.heart {
+color: #d93025;
+margin: 0 10px;
+font-size: 2.8rem;
+animation: pulse 2s infinite;
+display: inline-block;
+vertical-align: middle;
+}
+
+@keyframes pulse {
+0%, 100% {
+transform: scale(1);
+opacity: 1;
+}
+50% {
+transform: scale(1.2);
+opacity: 0.7;
+}
+}
+
+.container {
+max-width: 600px;
+margin: 0 auto;
+background: rgba(255, 255, 255, 0.85);
+border-radius: 16px;
+padding: 30px 30px 40px;
+box-shadow: 0 8px 15px rgba(170, 60, 60, 0.3);
+animation: fadeInUp 1.2s ease forwards;
+opacity: 0;
+}
+
+@keyframes fadeInUp {
+0% {
+opacity: 0;
+transform: translateY(30px);
+}
+100% {
+opacity: 1;
+transform: translateY(0);
+}
+}
+
+p {
+font-size: 1.1rem;
+line-height: 1.5;
+margin-bottom: 18px;
+}
+
+.highlight {
+font-weight: 700;
+color: #a22a2a;
+}
+
+.dates {
+font-style: italic;
+color: #7b4f4f;
+margin-bottom: 24px;
+text-align: center;
+}
+
+.button-group {
+text-align: center;
+margin-top: 30px;
+}
+
+button {
+background-color: #a22a2a;
+border: none;
+color: white;
+padding: 14px 28px;
+margin: 0 15px;
+font-size: 1.1rem;
+font-weight: 700;
+border-radius: 50px;
+cursor: pointer;
+box-shadow: 0 4px 8px rgba(162, 42, 42, 0.6);
+transition: background-color 0.3s ease;
+}
+
+button:hover {
+background-color: #7b1e1e;
+}
+
+#message {
+margin-top: 28px;
+font-size: 1.2rem;
+font-weight: 700;
+color: #4a774a;
+min-height: 30px;
+user-select: none;
+text-align: center;
+}
+
+#message.error {
+color: #b33030;
+}
+
+/* Animação suave nos textos */
+p, .dates {
+opacity: 0;
+animation: fadeInText 1s ease forwards;
+}
+p:nth-of-type(1) { animation-delay: 0.3s; }
+p:nth-of-type(2) { animation-delay: 0.8s; }
+p:nth-of-type(3) { animation-delay: 1.3s; }
+p:nth-of-type(4) { animation-delay: 1.8s; }
+p:nth-of-type(5) { animation-delay: 2.3s; }
+
+@keyframes fadeInText {
+to {
+opacity: 1;
+}
+}
+
+/* Cronômetro */
+#timer {
+background: #a22a2a;
+color: white;
+font-weight: 700;
+font-size: 1.3rem;
+text-align: center;
+padding: 12px 0;
+border-radius: 12px;
+margin-bottom: 30px;
+box-shadow: 0 4px 8px rgba(162, 42, 42, 0.7);
+user-select: none;
+}
+</style>
+</head>
+<body>
+
+<header>
+Bruno <span class="heart">❤️</span> Sofia
+</header>
+
+<div class="container">
+<div id="timer" aria-live="polite" aria-atomic="true" aria-label="Tempo juntos">Carregando tempo juntos...</div>
+
+<p class="dates">Começou tudo em <span class="highlight">08/10/2024</span>, no dia do nosso primeiro beijo.</p>
+
+<p>Naquela manhã, combinamos de sair e fomos caminhar na praia. Foi um momento mágico, a brisa do mar e o sol iluminando nossos passos.</p>
+
+<p>Durante a caminhada, pela primeira vez, nos demos as mãos. Lembro até hoje quando falei pra você: <span class="highlight">"Olha, um peixe morto."</span></p>
+
+<p>Quando me virei para você, senti que era o momento certo e te dei o meu primeiro beijo. Um beijo que marcou o início do nosso amor.</p>
+
+<p>O meu primeiro <span class="highlight">"Eu te amo"</span> foi no dia <span class="highlight">18/10/2024</span>, e quando te pedi em namoro com a aliança foi no dia <span class="highlight">24/10/2024</span>. Foram momentos inesquecíveis e cheios de emoção.</p>
+
+<div class="button-group" role="group" aria-label="Escolha se quer ficar a vida inteira comigo">
+<p><strong>Quer ficar o resto da vida inteira comigo?</strong></p>
+<button id="btnYes" aria-describedby="message">Sim</button>
+<button id="btnNo" aria-describedby="message">Não</button>
+</div>
+
+<div id="message" role="alert" aria-live="assertive"></div>
+</div>
+
+<script>
+function updateTimer() {
+// Meses são baseados em zero: 9 = Outubro
+const startDate = new Date(2024, 9, 8, 0, 0, 0);
+const now = new Date();
+let diff = now - startDate;
+
+if (diff < 0) {
+document.getElementById('timer').textContent = "Ainda não começamos nosso namoro!";
+return;
+}
+
+const seconds = Math.floor(diff / 1000) % 60;
+const minutes = Math.floor(diff / (1000 * 60)) % 60;
+const hours = Math.floor(diff / (1000 * 60 * 60)) % 24;
+const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+
+const text = `${days} dia${days !== 1 ? 's' : ''}, ${hours} hora${hours !== 1 ? 's' : ''}, ${minutes} minuto${minutes !== 1 ? 's' : ''} e ${seconds} segundo${seconds !== 1 ? 's' : ''} juntos`;
+
+document.getElementById('timer').textContent = text;
+}
+
+setInterval(updateTimer, 1000);
+updateTimer();
+
+const btnYes = document.getElementById('btnYes');
+const btnNo = document.getElementById('btnNo');
+const message = document.getElementById('message');
+
+btnYes.addEventListener('click', () => {
+message.classList.remove('error');
+message.textContent = 'Você vai ficar a vida inteira comigo! 💖';
+});
+
+btnNo.addEventListener('click', () => {
+message.classList.add('error');
+message.textContent = 'Erro: essa opção não está disponível. Você só pode escolher "Sim". ❤️';
+});
+</script>
+
+</body>
+</html>
